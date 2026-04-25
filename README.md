@@ -184,5 +184,4 @@ kısıtı **literal** karşılanırdı.
 > 6. **Ölü NuGet paketleri.** MVC/Razor/WebPages/jQuery/bootstrap NuGet'leri
 >    `packages.config`'te duruyor; build'i bozma riskini almamak için
 >    silmedim. NuGet UI'dan uninstall edilebilir.
->#   k a r a d e n i z - c a s e  
- 
+>#
