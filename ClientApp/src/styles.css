@@ -1,0 +1,47 @@
+/* Minimal "design system" — kasıtlı olarak component lib (Material/PrimeNG) çekmedik:
+   case'in scope'u küçük, dependency yükü 400ms response budget'la çelişebilir. */
+
+:root {
+  --bg: #f7f8fa;
+  --surface: #ffffff;
+  --border: #e3e6ec;
+  --text: #1f2430;
+  --muted: #6b7280;
+  --primary: #2b6cb0;
+  --primary-hover: #225d9b;
+  --danger: #c53030;
+  --warning: #b45309;
+  --success: #2f855a;
+  --radius: 6px;
+  --shadow: 0 1px 3px rgba(15,23,42,0.08), 0 1px 2px rgba(15,23,42,0.06);
+  --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); font-family: var(--font); font-size: 14px; line-height: 1.45; }
+
+button { cursor: pointer; font-family: inherit; }
+button:disabled { cursor: not-allowed; opacity: 0.6; }
+
+.btn { padding: 0.5rem 1rem; border-radius: var(--radius); border: 1px solid var(--border); background: var(--surface); font-size: 14px; transition: background-color 0.15s; }
+.btn:hover { background: #f3f4f6; }
+.btn-primary { background: var(--primary); color: white; border-color: var(--primary); }
+.btn-primary:hover { background: var(--primary-hover); border-color: var(--primary-hover); }
+.btn-ghost { background: transparent; border-color: transparent; }
+.btn-danger { background: var(--danger); color: white; border-color: var(--danger); }
+
+.input, .select { padding: 0.5rem 0.75rem; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); font-size: 14px; font-family: inherit; width: 100%; }
+.input:focus, .select:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(43,108,176,0.12); }
+
+.chip { display: inline-flex; align-items: center; gap: 0.25rem; padding: 0.2rem 0.5rem; background: #eef2ff; color: #3730a3; border-radius: 999px; font-size: 12px; }
+.chip button { background: transparent; border: none; color: inherit; padding: 0; line-height: 1; font-size: 14px; }
+
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); }
+
+.muted { color: var(--muted); }
+.text-sm { font-size: 13px; }
+.text-xs { font-size: 12px; }
+.text-danger { color: var(--danger); }
+.text-warning { color: var(--warning); }
+.text-success { color: var(--success); }

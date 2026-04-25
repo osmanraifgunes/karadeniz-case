@@ -1,0 +1,36 @@
+.page-container { max-width: 1100px; margin: 1.25rem auto; padding: 0 1.25rem; }
+.search-panel { padding: 1rem; margin-bottom: 1rem; }
+.search-row { display: grid; grid-template-columns: 1fr 220px; gap: 0.75rem; }
+.search-input { font-size: 15px; }
+.filter-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.75rem; margin-top: 0.75rem; }
+.chip-row { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; margin-top: 0.75rem; }
+
+.results-meta { padding: 0.5rem 0.25rem; }
+
+.alert { padding: 0.75rem 1rem; border-radius: var(--radius); margin-bottom: 1rem; display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; }
+.alert-error { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; }
+
+.list-card { overflow: hidden; }
+
+.doc-table { width: 100%; border-collapse: collapse; }
+.doc-table th, .doc-table td { padding: 0.75rem 1rem; text-align: left; border-bottom: 1px solid var(--border); }
+.doc-table th { background: #fafbfc; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); }
+.doc-table tbody tr:hover { background: #fafbfc; }
+.doc-table .title { font-weight: 500; }
+.doc-table .text-right { text-align: right; }
+
+.type-badge { display: inline-block; padding: 0.15rem 0.5rem; border-radius: 999px; font-size: 11px; font-weight: 600; background: #f3f4f6; color: #374151; }
+.type-contract { background: #ddd6fe; color: #5b21b6; }
+.type-offer { background: #d1fae5; color: #065f46; }
+.type-invoice { background: #fed7aa; color: #9a3412; }
+
+.empty-state { padding: 3rem 1rem; text-align: center; }
+.empty-state h3 { margin: 0 0 0.5rem 0; font-weight: 600; }
+.empty-state p { margin: 0 0 1.5rem 0; }
+.suggestions { display: inline-flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; margin: 0 0 1rem 0; }
+.suggestions .chip { cursor: pointer; border: none; }
+
+.pagination { display: flex; justify-content: center; align-items: center; gap: 1rem; padding: 1rem 0; }
+.pagination.hidden { visibility: hidden; }
+
+.hash { font-family: ui-monospace, SF Mono, Consolas, monospace; }

@@ -1,0 +1,101 @@
+<div class="page-container">
+<div class="search-panel card">
+  <div class="search-row">
+    <input
+      class="input search-input"
+      type="search"
+      [(ngModel)]="q"
+      (ngModelChange)="onQueryChange()"
+      placeholder="Başlık veya etiket ile ara… (ör: 'sözleşme abc')"
+      autocomplete="off"
+    />
+    <select class="select" [(ngModel)]="type" (ngModelChange)="onFilterChange()">
+      <option value="">Tüm türler</option>
+      <option *ngFor="let t of docTypes" [value]="t.value">{{ t.label }}</option>
+    </select>
+  </div>
+
+  <div class="filter-row">
+    <input class="input" type="text" [(ngModel)]="uploader" (ngModelChange)="onFilterChange()" placeholder="Yükleyen" />
+    <input class="input" type="date" [(ngModel)]="from" (ngModelChange)="onFilterChange()" />
+    <input class="input" type="date" [(ngModel)]="to" (ngModelChange)="onFilterChange()" />
+  </div>
+
+  <div class="chip-row" *ngIf="activeFilters().length > 0">
+    <span class="chip" *ngFor="let f of activeFilters()">
+      {{ f.label }}
+      <button (click)="removeFilter(f.key)" aria-label="Filtreyi kaldır">×</button>
+    </span>
+    <button class="btn btn-ghost text-sm" (click)="clearAll()">Tümünü temizle</button>
+  </div>
+</div>
+
+<!-- Sonuç meta -->
+<div class="results-meta" *ngIf="response() as r">
+  <span class="muted text-sm">
+    <ng-container *ngIf="!loading()">
+      <strong>{{ r.total }}</strong> sonuç
+      <span *ngIf="q"> · "{{ q }}"</span>
+      <span> · {{ r.tookMs }} ms</span>
+    </ng-container>
+    <ng-container *ngIf="loading()"><em>Aranıyor…</em></ng-container>
+  </span>
+</div>
+
+<!-- Hata -->
+<div class="alert alert-error" *ngIf="error() as e">
+  <strong>Hata:</strong> {{ e }}
+  <button class="btn btn-ghost text-sm" (click)="runSearch()">Tekrar dene</button>
+</div>
+
+<!-- Sonuç tablosu -->
+<div class="card list-card" *ngIf="response() as r">
+  <table class="doc-table" *ngIf="r.items.length > 0">
+    <thead>
+      <tr>
+        <th>Başlık</th>
+        <th>Tür</th>
+        <th>Yükleyen</th>
+        <th>Tarih</th>
+        <th class="text-right">Skor</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let d of r.items">
+        <td>
+          <div class="title">{{ d.title }}</div>
+          <div class="text-xs muted hash" *ngIf="d.contentHash">#{{ d.contentHash.substring(0, 10) }}…</div>
+        </td>
+        <td><span class="type-badge type-{{ d.documentType.toLowerCase() }}">{{ docTypeLabel(d.documentType) }}</span></td>
+        <td>{{ d.uploadedBy }}</td>
+        <td class="muted text-sm">{{ d.uploadDate | date: 'dd.MM.yyyy HH:mm' }}</td>
+        <td class="text-right muted text-xs">{{ d.score | number: '1.2-2' }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Boş durum: filtreli -->
+  <div class="empty-state" *ngIf="emptyReason === 'no-results'">
+    <h3>Kriterlerinize uyan doküman bulunamadı</h3>
+    <p class="muted">Filtreleri gevşetmeyi deneyin veya farklı bir kelime arayın.</p>
+    <div class="suggestions" *ngIf="r.suggestions?.length">
+      <span class="text-sm muted">Öneriler:</span>
+      <button class="chip" *ngFor="let s of r.suggestions" (click)="applySuggestion(s)">{{ s }}</button>
+    </div>
+    <button class="btn" (click)="clearAll()">Tüm filtreleri temizle</button>
+  </div>
+
+  <!-- Boş durum: hiç veri yok -->
+  <div class="empty-state" *ngIf="emptyReason === 'no-data'">
+    <h3>Henüz doküman yok</h3>
+    <p class="muted">Sağ üstten "Yeni Doküman Yükle" diyerek ilk dokümanı ekleyin.</p>
+  </div>
+</div>
+
+<!-- Pagination -->
+<div class="pagination" *ngIf="response() as r" [class.hidden]="r.total === 0">
+  <button class="btn" (click)="goToPage(page - 1)" [disabled]="page <= 1">‹ Önceki</button>
+  <span class="muted text-sm">Sayfa {{ page }} / {{ totalPages() }}</span>
+  <button class="btn" (click)="goToPage(page + 1)" [disabled]="page >= totalPages()">Sonraki ›</button>
+</div>
+</div><!-- /.page-container -->

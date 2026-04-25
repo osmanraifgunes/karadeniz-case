@@ -1,0 +1,29 @@
+.modal-backdrop {
+  position: fixed; inset: 0; background: rgba(15,23,42,0.45); z-index: 50;
+}
+.modal {
+  position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  width: min(560px, calc(100vw - 2rem)); max-height: calc(100vh - 4rem);
+  background: var(--surface); border-radius: 8px; box-shadow: 0 20px 50px rgba(15,23,42,0.25);
+  z-index: 51; display: flex; flex-direction: column;
+}
+.modal-header { display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.25rem; border-bottom: 1px solid var(--border); }
+.modal-header h2 { margin: 0; font-size: 1.05rem; font-weight: 600; }
+.modal-body { padding: 1.25rem; overflow-y: auto; }
+.modal-footer { display: flex; justify-content: flex-end; gap: 0.5rem; padding: 0.75rem 1.25rem; border-top: 1px solid var(--border); align-items: center; }
+
+.field { display: flex; flex-direction: column; gap: 0.35rem; margin-bottom: 1rem; }
+.field label { font-size: 13px; font-weight: 500; color: #374151; }
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+
+.alert { padding: 0.5rem 0.75rem; border-radius: var(--radius); font-size: 13px; }
+.alert-error { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; }
+
+.dup-warning h3 { margin: 0 0 0.5rem 0; }
+.dup-card { padding: 0.75rem 1rem; margin: 0.75rem 0; background: #fff7ed; border-color: #fed7aa; }
+.dup-card div { margin-bottom: 0.25rem; }
+
+.success-state { text-align: center; padding: 1.5rem 0; }
+.check { width: 48px; height: 48px; border-radius: 50%; background: var(--success); color: white; font-size: 28px; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 0.5rem; }
+
+.hash { font-family: ui-monospace, SF Mono, Consolas, monospace; }

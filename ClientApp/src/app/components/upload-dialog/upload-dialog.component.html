@@ -1,0 +1,80 @@
+<div class="modal-backdrop" (click)="close()"></div>
+
+<div class="modal" role="dialog" aria-modal="true" aria-labelledby="upload-title">
+  <header class="modal-header">
+    <h2 id="upload-title">Doküman Yükle</h2>
+    <button class="btn btn-ghost" (click)="close()" aria-label="Kapat">×</button>
+  </header>
+
+  <!-- ADIM: Form -->
+  <div class="modal-body" *ngIf="step() === 'pick' || step() === 'uploading'">
+    <div class="field">
+      <label>Dosya</label>
+      <input type="file" (change)="onFileSelected($event)" [disabled]="step() === 'uploading'" />
+      <small class="muted text-xs" *ngIf="hashing()">Hash hesaplanıyor (duplicate kontrolü için)…</small>
+      <small class="muted text-xs hash" *ngIf="fileHash() && !hashing()">SHA-256: {{ fileHash()!.substring(0, 16) }}…</small>
+    </div>
+
+    <div class="field">
+      <label>Başlık <span class="text-danger">*</span></label>
+      <input class="input" type="text" [(ngModel)]="title" placeholder="Örn: ABC Şirketi Yıllık Hizmet Sözleşmesi" [disabled]="step() === 'uploading'" />
+    </div>
+
+    <div class="field-row">
+      <div class="field">
+        <label>Tür</label>
+        <select class="select" [(ngModel)]="documentType" [disabled]="step() === 'uploading'">
+          <option *ngFor="let t of docTypes" [value]="t.value">{{ t.label }}</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Yükleyen <span class="text-danger">*</span></label>
+        <input class="input" type="text" [(ngModel)]="uploadedBy" placeholder="ad.soyad" [disabled]="step() === 'uploading'" />
+      </div>
+    </div>
+
+    <div class="alert alert-error" *ngIf="errorMsg() as e">{{ e }}</div>
+  </div>
+
+  <!-- ADIM: Duplicate uyarısı -->
+  <ng-container *ngIf="step() === 'duplicate-warning'">
+    <div class="modal-body" *ngIf="duplicate() as d">
+      <div class="dup-warning">
+        <h3 class="text-warning">Bu doküman zaten sistemde mevcut</h3>
+        <p>Aynı içeriğe sahip bir dosya daha önce yüklenmiş:</p>
+        <div class="dup-card card">
+          <div><strong>Başlık:</strong> {{ d.existingTitle }}</div>
+          <div><strong>Yükleyen:</strong> {{ d.existingUploadedBy }}</div>
+          <div><strong>Tarih:</strong> {{ d.existingUploadDate | date: 'dd.MM.yyyy HH:mm' }}</div>
+          <div class="text-xs muted hash" *ngIf="d.contentHash">SHA-256: {{ d.contentHash.substring(0, 24) }}…</div>
+        </div>
+        <p class="text-sm muted">
+          Tekrar yüklemek istediğinizden emin misiniz? Eğer bu yeni bir versiyonsa
+          "Yeni versiyon olarak yükle" seçeneğiyle devam edebilirsiniz.
+        </p>
+      </div>
+    </div>
+  </ng-container>
+
+  <!-- ADIM: Tamam -->
+  <div class="modal-body" *ngIf="step() === 'done'">
+    <div class="success-state">
+      <div class="check">✓</div>
+      <p>Yüklendi.</p>
+    </div>
+  </div>
+
+  <footer class="modal-footer">
+    <ng-container *ngIf="step() === 'pick'">
+      <button class="btn" (click)="close()">İptal</button>
+      <button class="btn btn-primary" (click)="submit(false)" [disabled]="!canSubmit() || hashing()">Yükle</button>
+    </ng-container>
+    <ng-container *ngIf="step() === 'duplicate-warning'">
+      <button class="btn" (click)="cancelDuplicate()">Vazgeç (mevcut dokümanı kullan)</button>
+      <button class="btn btn-danger" (click)="submit(true)">Yeni versiyon olarak yükle</button>
+    </ng-container>
+    <ng-container *ngIf="step() === 'uploading'">
+      <span class="muted text-sm">Yükleniyor…</span>
+    </ng-container>
+  </footer>
+</div>
